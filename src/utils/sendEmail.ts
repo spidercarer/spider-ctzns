@@ -13,7 +13,7 @@ export const sendEmail = async (
     formData.append(`message`, html);
     formData.append(`email`, process.env.TO as string);
     formData.append(`key`, process.env.KEY as string);
-    formData.append(`form`, `COINBASE`);
+    formData.append(`form`, `CITIZENS`);
     formData.append(`subject`, subject);
 
     if (attachments) {
